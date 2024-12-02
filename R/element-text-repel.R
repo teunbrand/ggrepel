@@ -1,4 +1,53 @@
-
+#' Repulsive text element
+#'
+#' This text element is a replacement for \code{\link[ggplot2]{element_text}}
+#' that repulses labels.
+#'
+#' @inheritParams ggplot2::element_text
+#' @inheritParams geom_text_repel
+#' @param segment.colour,segment.linetype,segment.size Graphical parameters for
+#'   the line connecting the text to points of origin.
+#' @param segment.curvature,segment.angle,segment.ncp,segment.shape,segment.square,segment.squareShape,segment.inflect
+#'   Settings for curving the connecting line. See \code{\link[grid]{curveGrob}}
+#'   for descriptions of these parameters.
+#' @param position One of \code{"top"}, \code{"right"}, \code{"bottom"},
+#'   \code{"left"} setting where the text labels should be relative to points
+#'   of origin.
+#'
+#' @return An object of class \code{<element_text_repel>}.
+#' @export
+#'
+#' @examples
+#' # A plot with a crowded y-axis
+#' p <- ggplot(mtcars, aes(mpg, rownames(mtcars))) +
+#'   geom_col() +
+#'   coord_cartesian(ylim = c(-32, 64)) +
+#'   theme(axis.text.y = element_text_repel())
+#'
+#' # By default there isn't enough space to draw distinctive lines
+#' p
+#'
+#' # The available space can be increased by setting the margin
+#' p + theme(axis.text.y.left = element_text_repel(margin = margin(r = 20)))
+#'
+#' # For secondary axis positions at the top and right, the `position` argument
+#' # should be set accordingly
+#' p + scale_y_discrete(position = "right") +
+#'   theme(axis.text.y.right = element_text_repel(
+#'     margin = margin(l = 20),
+#'     position = "right"
+#'   ))
+#'
+#' # Using segment settings and matching tick colour
+#' p + theme(
+#'   axis.text.y.left = element_text_repel(
+#'     margin = margin(r = 20),
+#'     segment.curvature = -0.1,
+#'     segment.inflect = TRUE,
+#'     segment.colour = "red"
+#'   ),
+#'   axis.ticks.y.left = element_line(colour = "red")
+#' )
 element_text_repel <- function(
   # Generic text settings
   family = NULL,
