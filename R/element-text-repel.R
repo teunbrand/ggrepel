@@ -37,6 +37,7 @@ element_text_repel <- function(
   arrow = NULL,
 
   # General settings
+  seed = NA,
   position = c("bottom", "top", "left", "right"),
   inherit.blank = FALSE
 ) {
@@ -112,7 +113,7 @@ element_grob.element_text_repel <- function(
   x_margin <- if (margin_x) width_cm(margin[c(2, 4)])  else c(0, 0)
   y_margin <- if (margin_y) height_cm(margin[c(1, 3)]) else c(0, 0)
 
-  box.padding <- height_cm(element$box.padding %||% to_unit(0.25))
+  box.padding <- height_cm(to_unit(element$box.padding %||% 0.25))
   max_width   <- max(width_cm(stringWidth(label)))   + sum(x_margin) + box.padding
   max_height  <- max(height_cm(stringHeight(label))) + sum(y_margin) + box.padding
 
@@ -137,6 +138,7 @@ element_grob.element_text_repel <- function(
   defaults <- GeomTextRepel$use_defaults(NULL)
   defaults <- defaults[setdiff(names(defaults), c(arg_names, "fontface"))]
   both <- intersect(names(defaults), names(element)[lengths(element) > 0])
+  defaults[both] <- element[both]
 
   data <- rlang::inject(data.frame(
     label = label,
@@ -148,6 +150,7 @@ element_grob.element_text_repel <- function(
     lineheight = gp$lineheight,
     hjust      = hjust,
     vjust      = vjust,
+    segment.colour = element$segment.colour %||% colour %||% element$colour,
     point.size = 0,
     !!!defaults,
     nudge_x = x_nudge,
