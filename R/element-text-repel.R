@@ -165,7 +165,7 @@ element_grob.element_text_repel <- function(
     lab = label,
     direction = direction,
     box.padding = unit(box.padding, "cm"),
-    point.padding = to_unit(0),
+    point.padding = to_unit(sqrt(.Machine$double.eps)),
     min.segment.length = to_unit(0),
     arrow = element$arrow,
     force = element$force %||% 1,
